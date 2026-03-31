@@ -122,6 +122,175 @@
   background: rgba(255, 255, 255, 0.12);
 }
 
+/* ─── How It Works ─────────────────────────────────── */
+.how-it-works {
+  padding: var(--space-16) 0;
+  background: linear-gradient(180deg, #f8fafc 0%, #fff 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.how-it-works::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(224, 53, 70, 0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.how-it-works__inner {
+  text-align: center;
+}
+
+.how-it-works__title {
+  margin-bottom: var(--space-2);
+  color: var(--color-text);
+}
+
+.how-it-works__subtitle {
+  max-width: 480px;
+  margin: 0 auto var(--space-10);
+  font-size: 1rem;
+}
+
+.how-it-works__steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-8);
+  max-width: 960px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Connector lines between steps */
+.how-it-works__steps::before,
+.how-it-works__steps::after {
+  content: '';
+  position: absolute;
+  top: 72px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+  opacity: 0.2;
+  z-index: 0;
+}
+
+.how-it-works__steps::before {
+  left: 16.67%;
+  right: 50%;
+}
+
+.how-it-works__steps::after {
+  left: 50%;
+  right: 16.67%;
+}
+
+.how-step {
+  position: relative;
+  z-index: 1;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8) var(--space-6) var(--space-6);
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.how-step:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  border-color: var(--color-primary);
+}
+
+/* Step number badge */
+.how-step__number {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 0.8125rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(224, 53, 70, 0.3);
+}
+
+/* Icon circle */
+.how-step__icon {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-4);
+  transition: transform 0.3s;
+}
+
+.how-step:hover .how-step__icon {
+  transform: scale(1.1);
+}
+
+.how-step__icon svg {
+  width: 28px;
+  height: 28px;
+  color: #fff;
+}
+
+.how-step__icon--search {
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.25);
+}
+
+.how-step__icon--book {
+  background: linear-gradient(135deg, #e03546, #ff6b7a);
+  box-shadow: 0 8px 20px rgba(224, 53, 70, 0.25);
+}
+
+.how-step__icon--move {
+  background: linear-gradient(135deg, #10b981, #34d399);
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.25);
+}
+
+.how-step__title {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+
+.how-step__desc {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .how-it-works__steps {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+    max-width: 400px;
+  }
+
+  .how-it-works__steps::before,
+  .how-it-works__steps::after {
+    display: none;
+  }
+
+  .how-it-works {
+    padding: var(--space-10) 0;
+  }
+}
+
 /* ─── Properties Section ────────────────────────────── */
 .properties-section {
   padding: var(--space-12) 0 var(--space-16);

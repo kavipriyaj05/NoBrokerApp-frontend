@@ -8,7 +8,13 @@ import SearchBar from '../components/SearchBar';
 import FilterPanel from '../components/FilterPanel';
 import PropertyCard from '../components/PropertyCard';
 import { DEFAULT_PAGE_SIZE } from '../utils/constants';
-import { HiOutlineBuildingOffice2, HiOutlineArrowPath } from 'react-icons/hi2';
+import {
+  HiOutlineBuildingOffice2,
+  HiOutlineArrowPath,
+  HiOutlineMagnifyingGlass,
+  HiOutlineCalendarDays,
+  HiOutlineKey,
+} from 'react-icons/hi2';
 import './PropertyListPage.css';
 
 export default function PropertyListPage() {
@@ -153,6 +159,48 @@ export default function PropertyListPage() {
         </div>
       </section>
 
+      {/* How It Works Section */}
+      <section className="how-it-works" id="how-it-works">
+        <div className="how-it-works__inner container">
+          <h2 className="heading-2 how-it-works__title animate-fade-in">How It Works</h2>
+          <p className="text-secondary how-it-works__subtitle animate-fade-in">
+            Find and move into your dream home in just 3 simple steps
+          </p>
+          <div className="how-it-works__steps">
+            <div className="how-step animate-fade-in-up delay-1">
+              <div className="how-step__number">1</div>
+              <div className="how-step__icon how-step__icon--search">
+                <HiOutlineMagnifyingGlass />
+              </div>
+              <h3 className="how-step__title">Search Properties</h3>
+              <p className="how-step__desc">
+                Browse thousands of verified listings across 15+ cities. Filter by budget, type, and location.
+              </p>
+            </div>
+            <div className="how-step animate-fade-in-up delay-2">
+              <div className="how-step__number">2</div>
+              <div className="how-step__icon how-step__icon--book">
+                <HiOutlineCalendarDays />
+              </div>
+              <h3 className="how-step__title">Book a Visit</h3>
+              <p className="how-step__desc">
+                Schedule a visit directly with the property owner. No brokers, no middlemen — just you and the owner.
+              </p>
+            </div>
+            <div className="how-step animate-fade-in-up delay-3">
+              <div className="how-step__number">3</div>
+              <div className="how-step__icon how-step__icon--move">
+                <HiOutlineKey />
+              </div>
+              <h3 className="how-step__title">Move In</h3>
+              <p className="how-step__desc">
+                Once confirmed, finalize the deal directly. Save lakhs in brokerage fees — that&apos;s the NoBroker promise.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Properties Section */}
       <section className="properties-section container" id="properties-section">
         <div className="properties-section__header">
@@ -164,11 +212,6 @@ export default function PropertyListPage() {
                 : 'Browse our curated listings'}
             </p>
           </div>
-          <FilterPanel
-            filters={filters}
-            onFilterChange={handleFilterChange}
-            onClear={handleClearFilters}
-          />
         </div>
 
         <div className="properties-layout">
