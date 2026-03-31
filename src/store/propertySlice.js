@@ -10,7 +10,7 @@ export const fetchMyProperties = createAsyncThunk(
   'property/fetchMyProperties',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await api.get('/properties/my-properties');
+      const response = await api.get('/properties/my');
       return response.data.data;
     } catch (error) {
       return rejectWithValue(

@@ -1,0 +1,148 @@
+/* BookingModal.css */
+
+.booking-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease;
+}
+
+.booking-modal {
+  background: #fff;
+  border-radius: var(--radius-xl, 16px);
+  width: 90%;
+  max-width: 480px;
+  padding: 2rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  animation: slideUp 0.3s ease;
+}
+
+.booking-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.booking-modal__header h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.booking-modal__close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #64748b;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.booking-modal__close:hover {
+  background: #f1f5f9;
+}
+
+.booking-modal__group {
+  margin-bottom: 1.25rem;
+}
+
+.booking-modal__group label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 0.5rem;
+}
+
+.booking-modal__group select,
+.booking-modal__group input,
+.booking-modal__group textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-family: inherit;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.booking-modal__group select:focus,
+.booking-modal__group input:focus,
+.booking-modal__group textarea:focus {
+  outline: none;
+  border-color: var(--color-primary, #e53935);
+  box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.1);
+}
+
+.booking-modal__group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.booking-modal__actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.booking-modal__actions .btn {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+
+.booking-modal__cancel {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.booking-modal__cancel:hover {
+  background: #e2e8f0;
+}
+
+.booking-modal__submit {
+  background: var(--color-primary, #e53935);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.booking-modal__submit:hover {
+  opacity: 0.9;
+}
+
+.booking-modal__submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}

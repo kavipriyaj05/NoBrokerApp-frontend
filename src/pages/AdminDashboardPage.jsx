@@ -10,6 +10,8 @@ import {
   fetchAllBookings,
   approveProperty,
   rejectProperty,
+  confirmBookingAdmin,
+  cancelBookingAdmin,
   clearAdminError,
   clearAdminSuccess,
 } from '../store/adminSlice';
@@ -93,6 +95,23 @@ export default function AdminDashboardPage() {
       setRejectReason('');
     } catch (err) {
       toast.error(err || 'Failed to reject');
+    }
+  };
+
+  const handleConfirmBooking = async (id) => {
+    try {
+      await dispatch(confirmBookingAdmin(id)).unwrap();
+    } catch (err) {
+      toast.error(err || 'Failed to confirm booking');
+    }
+  };
+
+  const handleCancelBooking = async (id) => {
+    if (!window.confirm('Cancel this booking?')) return;
+    try {
+      await dispatch(cancelBookingAdmin(id)).unwrap();
+    } catch (err) {
+      toast.error(err || 'Failed to cancel booking');
     }
   };
 
@@ -344,6 +363,7 @@ export default function AdminDashboardPage() {
                         <th>Visit Date</th>
                         <th>Status</th>
                         <th>Created</th>
+                        <th>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -359,11 +379,11 @@ export default function AdminDashboardPage() {
                               <div className="admin-table__avatar">
                                 {getInitials(booking.userName || booking.user?.name)}
                               </div>
-                              <span>{booking.userName || booking.user?.name || '—'}</span>
+                              <span>{booking.userName || booking.user?.name || `User #${booking.userId || '—'}`}</span>
                             </div>
                           </td>
-                          <td>{booking.type || 'VISIT'}</td>
-                          <td>{formatDate(booking.visitDate)}</td>
+                          <td>{booking.bookingType || booking.type || 'VISIT'}</td>
+                          <td>{formatDate(booking.preferredDate || booking.visitDate)}</td>
                           <td>
                             <span className={`badge ${
                               booking.status === 'CONFIRMED' ? 'badge-approved' :
@@ -373,6 +393,34 @@ export default function AdminDashboardPage() {
                             </span>
                           </td>
                           <td>{formatDate(booking.createdAt)}</td>
+                          <td>
+                            {booking.status === 'PENDING' && (
+                              <div className="admin-table__actions">
+                                <button
+                                  className="btn btn-primary btn-sm"
+                                  style={{ background: 'var(--color-success)', boxShadow: 'none' }}
+                                  onClick={() => handleConfirmBooking(booking.id)}
+                                  disabled={actionLoading === booking.id}
+                                >
+                                  {actionLoading === booking.id ? (
+                                    <div className="spinner" style={{ width: 12, height: 12 }} />
+                                  ) : (
+                                    <><HiOutlineCheckCircle /> Confirm</>
+                                  )}
+                                </button>
+                                <button
+                                  className="btn btn-danger btn-sm"
+                                  onClick={() => handleCancelBooking(booking.id)}
+                                  disabled={actionLoading === booking.id}
+                                >
+                                  <HiOutlineXCircle /> Cancel
+                                </button>
+                              </div>
+                            )}
+                            {booking.status !== 'PENDING' && (
+                              <span style={{ color: 'var(--color-text-muted)', fontSize: '0.8125rem' }}>—</span>
+                            )}
+                          </td>
                         </tr>
                       ))}
                     </tbody>

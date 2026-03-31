@@ -24,6 +24,9 @@ import MyPropertiesPage from './pages/MyPropertiesPage';
 import MyBookingsPage from './pages/MyBookingsPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 
+// Booking modal (wired to PropertyDetailPage's "Book a Visit" button)
+import BookingModal from './components/BookingModal';
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -56,6 +59,7 @@ export default function App() {
       />
 
       <Navbar />
+      <BookingModal />
 
       <Routes>
         {/* Public routes */}

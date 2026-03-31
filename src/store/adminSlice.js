@@ -81,7 +81,7 @@ export const approveProperty = createAsyncThunk(
   'admin/approveProperty',
   async (id, { rejectWithValue }) => {
     try {
-      const response = await api.put(`/admin/properties/${id}/approve`);
+      const response = await api.patch(`/admin/properties/${id}/approve`);
       return { id, data: response.data.data };
     } catch (error) {
       return rejectWithValue(
@@ -95,11 +95,39 @@ export const rejectProperty = createAsyncThunk(
   'admin/rejectProperty',
   async ({ id, reason }, { rejectWithValue }) => {
     try {
-      const response = await api.put(`/admin/properties/${id}/reject`, { reason });
+      const response = await api.patch(`/admin/properties/${id}/reject`, { reason });
       return { id, data: response.data.data };
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || 'Failed to reject property'
+      );
+    }
+  }
+);
+
+export const confirmBookingAdmin = createAsyncThunk(
+  'admin/confirmBooking',
+  async (id, { rejectWithValue }) => {
+    try {
+      await api.patch(`/admin/bookings/${id}/confirm`);
+      return id;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || 'Failed to confirm booking'
+      );
+    }
+  }
+);
+
+export const cancelBookingAdmin = createAsyncThunk(
+  'admin/cancelBooking',
+  async (id, { rejectWithValue }) => {
+    try {
+      await api.patch(`/admin/bookings/${id}/cancel`);
+      return id;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || 'Failed to cancel booking'
       );
     }
   }
@@ -245,6 +273,38 @@ const adminSlice = createSlice({
         state.success = 'Property rejected.';
       })
       .addCase(rejectProperty.rejected, (state, action) => {
+        state.actionLoading = null;
+        state.error = action.payload;
+      });
+
+    // Confirm booking
+    builder
+      .addCase(confirmBookingAdmin.pending, (state, action) => {
+        state.actionLoading = action.meta.arg;
+      })
+      .addCase(confirmBookingAdmin.fulfilled, (state, action) => {
+        state.actionLoading = null;
+        const idx = state.allBookings.findIndex((b) => b.id === action.payload);
+        if (idx !== -1) state.allBookings[idx].status = 'CONFIRMED';
+        state.success = 'Booking confirmed!';
+      })
+      .addCase(confirmBookingAdmin.rejected, (state, action) => {
+        state.actionLoading = null;
+        state.error = action.payload;
+      });
+
+    // Cancel booking (admin)
+    builder
+      .addCase(cancelBookingAdmin.pending, (state, action) => {
+        state.actionLoading = action.meta.arg;
+      })
+      .addCase(cancelBookingAdmin.fulfilled, (state, action) => {
+        state.actionLoading = null;
+        const idx = state.allBookings.findIndex((b) => b.id === action.payload);
+        if (idx !== -1) state.allBookings[idx].status = 'CANCELLED';
+        state.success = 'Booking cancelled.';
+      })
+      .addCase(cancelBookingAdmin.rejected, (state, action) => {
         state.actionLoading = null;
         state.error = action.payload;
       });

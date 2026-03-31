@@ -25,6 +25,7 @@ const initialForm = {
   type: 'RENT',
   price: '',
   city: '',
+  state: '',
   location: '',
   bedrooms: '',
   bathrooms: '',
@@ -206,6 +207,20 @@ export default function AddPropertyPage() {
                     ))}
                   </select>
                 </div>
+                <div className="form-group">
+                  <label className="form-label">State</label>
+                  <input
+                    type="text"
+                    name="state"
+                    className="form-input"
+                    placeholder="e.g., Tamil Nadu, Karnataka"
+                    value={form.state}
+                    onChange={handleChange}
+                    id="input-state"
+                  />
+                </div>
+              </div>
+              <div className="add-property__row" style={{ marginTop: 'var(--space-5)' }}>
                 <div className="form-group">
                   <label className="form-label">Locality / Area *</label>
                   <input

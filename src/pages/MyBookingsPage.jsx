@@ -44,6 +44,7 @@ export default function MyBookingsPage() {
     try {
       await dispatch(cancelBooking(id)).unwrap();
       toast.success('Booking cancelled');
+      dispatch(fetchMyBookings()); // re-fetch to guarantee UI update
     } catch (err) {
       toast.error(err || 'Failed to cancel booking');
     }
@@ -176,7 +177,7 @@ export default function MyBookingsPage() {
                     )}
                     <div className="booking-card__detail">
                       <HiOutlineTicket />
-                      <span><strong>Type:</strong> {booking.type || 'VISIT'}</span>
+                      <span><strong>Type:</strong> {booking.bookingType || 'VISIT'}</span>
                     </div>
                   </div>
 
