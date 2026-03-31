@@ -1,0 +1,285 @@
+/* ═══════════════════════════════════════════════════════
+   PropertyListPage Styles
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── Hero ──────────────────────────────────────────── */
+.hero {
+  position: relative;
+  padding: var(--space-24) 0 var(--space-16);
+  overflow: hidden;
+}
+
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero__gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    #0f172a 0%,
+    #1e293b 30%,
+    #334155 60%,
+    #1e293b 100%
+  );
+}
+
+.hero__pattern {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 25% 25%, rgba(224, 53, 70, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(59, 130, 246, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.04) 0%, transparent 50%);
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.hero__text {
+  max-width: 700px;
+  margin: 0 auto var(--space-10);
+}
+
+.hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: rgba(224, 53, 70, 0.15);
+  color: var(--color-primary-light);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  margin-bottom: var(--space-6);
+  border: 1px solid rgba(224, 53, 70, 0.25);
+}
+
+.hero__title {
+  color: white;
+  margin-bottom: var(--space-5);
+}
+
+.hero__title-accent {
+  background: linear-gradient(135deg, var(--color-primary-light), #ff8a95);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero__subtitle {
+  color: #94a3b8;
+  font-size: 1.125rem;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+.hero__search {
+  max-width: 800px;
+  margin: 0 auto var(--space-10);
+}
+
+/* Hero stats */
+.hero__stats {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  padding: var(--space-4) var(--space-8);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px);
+  border-radius: var(--radius-2xl);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hero__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.hero__stat-value {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: white;
+}
+
+.hero__stat-label {
+  font-size: 0.8125rem;
+  color: #94a3b8;
+}
+
+.hero__stat-divider {
+  width: 1px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* ─── Properties Section ────────────────────────────── */
+.properties-section {
+  padding: var(--space-12) 0 var(--space-16);
+}
+
+.properties-section__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--space-8);
+  gap: var(--space-4);
+}
+
+.properties-section__header h2 {
+  margin-bottom: var(--space-1);
+}
+
+.properties-layout {
+  display: flex;
+  gap: var(--space-8);
+  align-items: flex-start;
+}
+
+/* Desktop sidebar filter (hidden on mobile — FilterPanel handles its own toggle) */
+.properties-filter-sidebar {
+  display: block;
+}
+
+/* On mobile, hide the sidebar and show the toggle button from FilterPanel */
+@media (max-width: 900px) {
+  .properties-filter-sidebar {
+    display: none;
+  }
+}
+
+/* On desktop, hide the toggle button rendered in the header */
+@media (min-width: 901px) {
+  .properties-section__header .filter-toggle {
+    display: none;
+  }
+}
+
+.properties-grid-wrapper {
+  flex: 1;
+  min-width: 0;
+}
+
+.properties-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-6);
+}
+
+/* Skeleton cards */
+.property-skeleton__body {
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* Empty state */
+.properties-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-16) var(--space-4);
+  text-align: center;
+}
+
+.properties-empty__icon {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-5);
+}
+
+.properties-empty__icon svg {
+  font-size: 2rem;
+  color: var(--color-text-muted);
+}
+
+.properties-empty h3 {
+  margin-bottom: var(--space-2);
+}
+
+.properties-empty p {
+  margin-bottom: var(--space-6);
+}
+
+/* ─── Pagination ────────────────────────────────────── */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: var(--space-10);
+}
+
+.pagination__pages {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.pagination__page {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination__page:hover {
+  background: var(--color-surface);
+}
+
+.pagination__page--active {
+  background: var(--color-primary);
+  color: white;
+}
+
+.pagination__page--active:hover {
+  background: var(--color-primary-dark);
+}
+
+/* ─── Responsive ────────────────────────────────────── */
+@media (max-width: 768px) {
+  .hero {
+    padding: var(--space-16) 0 var(--space-10);
+  }
+
+  .hero__stats {
+    gap: var(--space-4);
+    padding: var(--space-3) var(--space-5);
+  }
+
+  .hero__stat-value {
+    font-size: 1.25rem;
+  }
+
+  .properties-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .properties-section__header {
+    flex-direction: column;
+  }
+}
