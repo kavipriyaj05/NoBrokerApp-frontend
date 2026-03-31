@@ -1,5 +1,5 @@
 // Redux Booking Slice — Jeyanth's file
-// Manages visit bookings for properties
+// Manages visit bookings for properties + owner booking management
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../api/api';
@@ -48,15 +48,63 @@ export const cancelBooking = createAsyncThunk(
   }
 );
 
+// ─── Owner Thunks ─────────────────────────────────────
+
+export const fetchOwnerBookings = createAsyncThunk(
+  'booking/fetchOwnerBookings',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.get('/bookings/owner');
+      return response.data.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || 'Failed to fetch owner bookings'
+      );
+    }
+  }
+);
+
+export const confirmOwnerBooking = createAsyncThunk(
+  'booking/confirmOwner',
+  async (id, { rejectWithValue }) => {
+    try {
+      await api.patch(`/bookings/${id}/confirm`);
+      return id;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || 'Failed to confirm booking'
+      );
+    }
+  }
+);
+
+export const rejectOwnerBooking = createAsyncThunk(
+  'booking/rejectOwner',
+  async ({ id, reason }, { rejectWithValue }) => {
+    try {
+      await api.patch(`/bookings/${id}/reject`, { reason });
+      return id;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || 'Failed to reject booking'
+      );
+    }
+  }
+);
+
 // ─── Slice ────────────────────────────────────────────
 
 const bookingSlice = createSlice({
   name: 'booking',
   initialState: {
     bookings: [],
+    ownerBookings: [],
     loading: false,
+    ownerLoading: false,
     creating: false,
     cancelling: null,
+    confirming: null,
+    rejecting: null,
     error: null,
     success: null,
   },
@@ -117,6 +165,59 @@ const bookingSlice = createSlice({
       })
       .addCase(cancelBooking.rejected, (state, action) => {
         state.cancelling = null;
+        state.error = action.payload;
+      });
+
+    // ─── Owner bookings ───────────────────────────────
+
+    // Fetch owner bookings
+    builder
+      .addCase(fetchOwnerBookings.pending, (state) => {
+        state.ownerLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchOwnerBookings.fulfilled, (state, action) => {
+        state.ownerLoading = false;
+        state.ownerBookings = Array.isArray(action.payload)
+          ? action.payload
+          : [];
+      })
+      .addCase(fetchOwnerBookings.rejected, (state, action) => {
+        state.ownerLoading = false;
+        state.error = action.payload;
+      });
+
+    // Confirm owner booking
+    builder
+      .addCase(confirmOwnerBooking.pending, (state, action) => {
+        state.confirming = action.meta.arg;
+        state.error = null;
+      })
+      .addCase(confirmOwnerBooking.fulfilled, (state, action) => {
+        state.confirming = null;
+        const idx = state.ownerBookings.findIndex((b) => b.id === action.payload);
+        if (idx !== -1) state.ownerBookings[idx].status = 'CONFIRMED';
+        state.success = 'Booking confirmed! Confirmation email sent to the user.';
+      })
+      .addCase(confirmOwnerBooking.rejected, (state, action) => {
+        state.confirming = null;
+        state.error = action.payload;
+      });
+
+    // Reject owner booking
+    builder
+      .addCase(rejectOwnerBooking.pending, (state, action) => {
+        state.rejecting = action.meta.arg.id;
+        state.error = null;
+      })
+      .addCase(rejectOwnerBooking.fulfilled, (state, action) => {
+        state.rejecting = null;
+        const idx = state.ownerBookings.findIndex((b) => b.id === action.payload);
+        if (idx !== -1) state.ownerBookings[idx].status = 'REJECTED';
+        state.success = 'Booking rejected. The user has been notified.';
+      })
+      .addCase(rejectOwnerBooking.rejected, (state, action) => {
+        state.rejecting = null;
         state.error = action.payload;
       });
   },

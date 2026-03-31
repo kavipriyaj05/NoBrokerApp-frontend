@@ -20,6 +20,7 @@ const TABS = [
   { key: 'ALL', label: 'All' },
   { key: 'PENDING', label: 'Pending' },
   { key: 'CONFIRMED', label: 'Confirmed' },
+  { key: 'REJECTED', label: 'Rejected' },
   { key: 'CANCELLED', label: 'Cancelled' },
 ];
 
@@ -58,6 +59,7 @@ export default function MyBookingsPage() {
   const getStatusBadgeClass = (status) => {
     switch (status) {
       case 'CONFIRMED': return 'badge-approved';
+      case 'REJECTED': return 'badge-rejected';
       case 'CANCELLED': return 'badge-rejected';
       case 'PENDING':
       default: return 'badge-pending';
@@ -210,6 +212,39 @@ export default function MyBookingsPage() {
                       )}
                     </div>
                   </div>
+
+                  {/* Confirmation details */}
+                  {booking.status === 'CONFIRMED' && booking.ownerName && (
+                    <div style={{
+                      marginTop: 'var(--space-2)',
+                      padding: '0.5rem 0.75rem',
+                      background: 'rgba(16, 185, 129, 0.08)',
+                      borderRadius: 'var(--radius-md)',
+                      fontSize: '0.8125rem',
+                      color: 'var(--color-success)',
+                      borderLeft: '3px solid var(--color-success)',
+                    }}>
+                      ✅ Confirmed by <strong>{booking.ownerName}</strong>
+                      {booking.confirmedAt && (
+                        <span> on {formatDate(booking.confirmedAt)}</span>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Rejection details */}
+                  {booking.status === 'REJECTED' && (
+                    <div style={{
+                      marginTop: 'var(--space-2)',
+                      padding: '0.5rem 0.75rem',
+                      background: 'rgba(239, 68, 68, 0.08)',
+                      borderRadius: 'var(--radius-md)',
+                      fontSize: '0.8125rem',
+                      color: '#ef4444',
+                      borderLeft: '3px solid #ef4444',
+                    }}>
+                      ❌ Booking rejected{booking.rejectionReason ? `: ${booking.rejectionReason}` : ''}
+                    </div>
+                  )}
                 </div>
               </div>
             ))}

@@ -22,6 +22,7 @@ import PropertyDetailPage from './pages/PropertyDetailPage';
 import AddPropertyPage from './pages/AddPropertyPage';
 import MyPropertiesPage from './pages/MyPropertiesPage';
 import MyBookingsPage from './pages/MyBookingsPage';
+import OwnerBookingsPage from './pages/OwnerBookingsPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 
 // Booking modal (wired to PropertyDetailPage's "Book a Visit" button)
@@ -92,6 +93,14 @@ export default function App() {
           element={
             <PrivateRoute>
               <MyBookingsPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/owner-bookings"
+          element={
+            <PrivateRoute>
+              <OwnerBookingsPage />
             </PrivateRoute>
           }
         />

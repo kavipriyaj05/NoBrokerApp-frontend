@@ -55,6 +55,7 @@ export default function Navbar() {
     navLinks.push({ to: '/add-property', label: 'List Property', icon: <HiOutlinePlus /> });
     navLinks.push({ to: '/my-properties', label: 'My Properties', icon: <HiOutlineViewGrid /> });
     navLinks.push({ to: '/my-bookings', label: 'My Bookings', icon: <HiOutlineCalendar /> });
+    navLinks.push({ to: '/owner-bookings', label: 'Owner Bookings', icon: <HiOutlineCalendar /> });
     if (role === USER_ROLES.ADMIN) {
       navLinks.push({ to: '/admin', label: 'Admin', icon: <HiOutlineShieldCheck /> });
     }
