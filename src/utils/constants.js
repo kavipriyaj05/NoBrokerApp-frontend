@@ -12,6 +12,7 @@ export const PROPERTY_STATUS = {
   PENDING: 'PENDING',
   APPROVED: 'APPROVED',
   REJECTED: 'REJECTED',
+  DELETED: 'DELETED',
 };
 
 export const BOOKING_TYPES = {

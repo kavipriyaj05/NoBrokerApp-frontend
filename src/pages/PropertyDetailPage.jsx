@@ -34,6 +34,7 @@ export default function PropertyDetailPage() {
 
   const [property, setProperty] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [propertyDeleted, setPropertyDeleted] = useState(false);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   useEffect(() => {
@@ -41,7 +42,13 @@ export default function PropertyDetailPage() {
       setLoading(true);
       try {
         const response = await api.get(`/properties/${id}`);
-        setProperty(response.data.data);
+        const data = response.data.data;
+        if (data.status === 'DELETED') {
+          setPropertyDeleted(true);
+          setProperty(data);
+        } else {
+          setProperty(data);
+        }
       } catch (err) {
         console.error('Failed to fetch property:', err);
         toast.error('Property not found');
@@ -105,6 +112,64 @@ export default function PropertyDetailPage() {
   }
 
   if (!property) return null;
+
+  if (propertyDeleted) {
+    return (
+      <div className="page-wrapper" id="property-detail-page">
+        <div className="detail container animate-fade-in">
+          <button className="detail__back btn btn-ghost" onClick={() => navigate(-1)} id="detail-back-btn">
+            <HiOutlineArrowLeft />
+            Back to listings
+          </button>
+          <div style={{
+            maxWidth: 600,
+            margin: '3rem auto',
+            textAlign: 'center',
+            padding: '3rem 2rem',
+            background: 'rgba(239, 68, 68, 0.06)',
+            borderRadius: 'var(--radius-xl)',
+            border: '1px solid rgba(239, 68, 68, 0.15)',
+          }}>
+            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🏚️</div>
+            <h2 className="heading-3" style={{ marginBottom: '0.75rem', color: '#ef4444' }}>
+              Property Deleted
+            </h2>
+            <p style={{ marginBottom: '1.5rem', color: 'var(--color-text-secondary)', lineHeight: 1.6 }}>
+              The property owner has deleted this property. If you had a booking for this property,
+              please contact the property owner for further details.
+            </p>
+            {property.owner && (
+              <div style={{
+                padding: '1.25rem',
+                background: 'var(--color-surface)',
+                borderRadius: 'var(--radius-lg)',
+                textAlign: 'left',
+                marginBottom: '1.5rem',
+              }}>
+                <h4 className="heading-4" style={{ marginBottom: '0.75rem' }}>
+                  <HiOutlineUser style={{ marginRight: 6 }} /> Owner Contact
+                </h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <span><strong>Name:</strong> {property.owner.name}</span>
+                  {property.owner.phone && (
+                    <a href={`tel:${property.owner.phone}`} style={{ color: 'var(--color-primary)' }}>
+                      <HiOutlinePhone style={{ marginRight: 4 }} /> {property.owner.phone}
+                    </a>
+                  )}
+                  <a href={`mailto:${property.owner.email}`} style={{ color: 'var(--color-primary)' }}>
+                    <HiOutlineEnvelope style={{ marginRight: 4 }} /> {property.owner.email}
+                  </a>
+                </div>
+              </div>
+            )}
+            <button className="btn btn-primary" onClick={() => navigate('/')}>
+              Browse Other Properties
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const images = property.images && property.images.length > 0
     ? property.images

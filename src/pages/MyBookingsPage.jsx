@@ -245,6 +245,21 @@ export default function MyBookingsPage() {
                       ❌ Booking rejected{booking.rejectionReason ? `: ${booking.rejectionReason}` : ''}
                     </div>
                   )}
+
+                  {/* Property deleted by owner notification */}
+                  {booking.status === 'CANCELLED' && booking.rejectionReason && booking.rejectionReason.includes('deleted by the owner') && (
+                    <div style={{
+                      marginTop: 'var(--space-2)',
+                      padding: '0.5rem 0.75rem',
+                      background: 'rgba(245, 158, 11, 0.08)',
+                      borderRadius: 'var(--radius-md)',
+                      fontSize: '0.8125rem',
+                      color: '#d97706',
+                      borderLeft: '3px solid #d97706',
+                    }}>
+                      🏚️ The property owner deleted this property. Contact the property owner for further details.
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
